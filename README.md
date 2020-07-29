@@ -1,29 +1,83 @@
 
-# Ckeditor
+# Ckeditor SimpleFileUploader Example
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
+This is a sample of how to integrate CKEditor5 into an Angular Application. While the documentation exists and is fragmented, this example uses a custom build made using the CKEditor online custom build tool, and setup into you Angular Application.
 
-## Development server
+Steps to setup
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Install CKEditor5 "@ckeditor/ckeditor5-angular"
+    -Add the CKEditorModule if your parent module
+    import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
-## Code scaffolding
+    imports: [...,CKEditorModule ]
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2. Go to the [Custom Build Tool for CKEditor](https://ckeditor.com/ckeditor-5/online-builder/)
+    - When choosing Plugins deselect "CKFinder upload adapter" and select "Simple upload adapter"
+    - Also select whatever plugins you want here
+    - For the "Toolbar" step, select everything you want except CKFinder
 
-## Build
+3. After downloading build, copy content of build folder to a directory in the src directory of your application
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+4. In the component you want to use the editor import from the custom build you made via the online tool
 
-## Running unit tests
+    import * as ClassicEditor from 'src/ckeditor/ckeditor';
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+5. Add the following to you tsconfig.json file
 
-## Running end-to-end tests
+      "compilerOptions": {
+            "allowJs": true,
+            ...
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+6. Add a public Editor and config property to the component
 
-## Further help
+      public Editor = ClassicEditor;
+      public config: any;
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+7. In the constructor add the config settings as follows:
 
+    this.config = {
+      toolbar: {
+        items: [
+          'bold',
+          'italic',
+          'link',
+          'bulletedList',
+          'numberedList',
+          'imageUpload',
+          'blockQuote',
+          'undo',
+          'redo'
+        ]
+      },
+      image: {
+        toolbar: [
+          'imageStyle:full',
+          'imageStyle:side',
+          '|',
+          'imageTextAlternative'
+        ]
+      },
+      simpleUpload: {
+        // The URL that the images are uploaded to.
+        uploadUrl: 'http://example.com',
+
+        // Enable the XMLHttpRequest.withCredentials property.
+        withCredentials: false,
+
+        // Headers sent along with the XMLHttpRequest to the upload server.
+        //headers: {
+        //  'X-CSRF-TOKEN': 'CSFR-Token',
+        //  Authorization: 'Bearer <JSON Web Token>'
+        //}
+      },
+      // This value must be kept in sync with the language defined in webpack.config.js.
+      language: 'en'
+    };
+
+8. Add the editor to the components template
+
+    <ckeditor [config]="config" [editor]="Editor"></ckeditor>
+
+9. npm run start
+
+10. Now get some sleep because most likely you spent all day trying to figure this out.
