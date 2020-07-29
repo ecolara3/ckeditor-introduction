@@ -49,6 +49,5 @@ export class AppComponent {
       language: 'en'
     };
 
-    ClassicEditor.builtinPlugins.map(plugin => plugin.pluginName);
   }
 }
