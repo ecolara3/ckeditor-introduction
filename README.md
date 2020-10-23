@@ -6,7 +6,7 @@ This is a sample of how to integrate CKEditor5 into an Angular Application. Whil
 Steps to setup
 
 1. Install CKEditor5 "@ckeditor/ckeditor5-angular"
-    -Add the CKEditorModule if your parent module
+    -Add the CKEditorModule in your parent module
     ```
     import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
